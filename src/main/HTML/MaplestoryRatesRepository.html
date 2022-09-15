@@ -7,16 +7,19 @@
     <title>Maplestory Training Rates Repository</title>
 </head>
 <body>
-    <button id="loadEntries">Load Entries</button>
+    <button id="loadEntriesButton">Load Entries</button>
     <br>
     <span>
-        <button id="addEntry">Add Entry</button>
+        <button id="addEntryButton">Add Entry</button>
         <input id="classNameInput" type="text" placeholder="Class">
         <input id="mapNameInput" type="text" placeholder="Map">
         <input id="moneyInput" type="number" placeholder="Mesos (in billions)">
-        <input id="expInput" type="number" placeholder="Exp (in percent)">
+        <input id="expInput" type="number" placeholder="Exp (in billions)">
         <input id="urlInput" type="text" placeholder="Video url (NA if none)">
     </span>
-    
+    <br>
+    <span id="displayEntries">
+    </span>
+    <script src="../Javascript/MaplestoryRatesRepository.js"></script>
 </body>
 </html>

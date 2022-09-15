@@ -26,6 +26,10 @@ public class EntryService {
         return er.getAllEntriesByMapID(id);
     }
 
+    public Entry getEntryByID(int id) {
+        return er.getEntryByID(id);
+    }
+
     public void addEntry(int entryID, int classID, int mapID, int moneyEarned, int expEarned, String url) {
         Entry entry = er.getEntryByID(entryID);
 
