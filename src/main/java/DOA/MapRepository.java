@@ -46,6 +46,22 @@ public class MapRepository {
         return "";
     }
 
+    public int getMapIDFromName(String name) {
+        try {
+            PreparedStatement statement = conn.prepareStatement("Select * from maps where mapName = ?");
+            statement.setString(1, name);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("mapID");
+                return id;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public Map getMapByID(int id) {
         try {
             PreparedStatement statement = conn.prepareStatement("Select * from maps where mapID = ?");
@@ -86,9 +102,10 @@ public class MapRepository {
 
     public void addMap(Map m) {
         try {
-            PreparedStatement statement = conn.prepareStatement("insert into maps(mapID, mapName) values(?,?)");
-            statement.setInt(1, m.getMapID());
-            statement.setString(2, m.getMapName());
+            // PreparedStatement statement = conn.prepareStatement("insert into maps(mapID, mapName) values(?,?)");
+            PreparedStatement statement = conn.prepareStatement("insert into maps(mapName) values(?)");
+            // statement.setInt(1, m.getMapID());
+            statement.setString(1, m.getMapName());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

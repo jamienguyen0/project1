@@ -1,20 +1,21 @@
-package Model;// Represents an entry in the database
+package Model;
 
+// Represents an entry in the database
 public class Entry {
     private int entryID;
     private int classID;
     private int mapID;
-    private int money;
-    private int exp;
+    private double money;
+    private double exp;
     private String videoLink;
 
     public Entry() {
     }
 
-    public Entry(int entryID, int classID, int mapID, int money, int exp, String videoLink) {
-        this.entryID = entryID;
-        this.classID = classID;
-        this.mapID = mapID;
+    public Entry(int entryID, int className, int mapName, double money, double exp, String videoLink) {
+        // this.entryID = entryID;
+        this.classID = className;
+        this.mapID = mapName;
         this.money = money;
         this.exp = exp;
         this.videoLink = videoLink;
@@ -32,11 +33,11 @@ public class Entry {
         return mapID;
     }
 
-    public int getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public int getExp() {
+    public double getExp() {
         return exp;
     }
 
@@ -46,6 +47,6 @@ public class Entry {
 
     @Override
     public String toString() {
-        return "(" + entryID + ", " + classID + ", " + mapID + ", " + money + ", " + exp + ", " + videoLink + ")";
+        return "(" + classID + ", " + mapID + ", " + money + ", " + exp + ", " + videoLink + ")";
     }
 }

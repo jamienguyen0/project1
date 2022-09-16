@@ -106,9 +106,10 @@ public class MaplestoryClassRepository {
 
     public void addClass(MaplestoryClass mc) {
         try {
-            PreparedStatement statement = conn.prepareStatement("insert into msclasses(classID, className) values(?,?)");
-            statement.setInt(1, mc.getClassID());
-            statement.setString(2, mc.getClassName());
+            // PreparedStatement statement = conn.prepareStatement("insert into msclasses(classID, className) values(?,?)");
+            PreparedStatement statement = conn.prepareStatement("insert into msclasses(className) values(?)");
+            // statement.setInt(1, mc.getClassID());
+            statement.setString(1, mc.getClassName());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

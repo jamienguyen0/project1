@@ -12,6 +12,10 @@ public class MaplestoryClass {
         this.className = className;
     }
 
+    public MaplestoryClass(String className) {
+        this.className = className;
+    }
+
     public int getClassID() {
         return classID;
     }

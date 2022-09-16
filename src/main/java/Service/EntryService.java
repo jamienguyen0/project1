@@ -30,7 +30,7 @@ public class EntryService {
         return er.getEntryByID(id);
     }
 
-    public void addEntry(int entryID, int classID, int mapID, int moneyEarned, int expEarned, String url) {
+    public void addEntry(int entryID, int classID, int mapID, double moneyEarned, double expEarned, String url) {
         Entry entry = er.getEntryByID(entryID);
 
         // Check if already exists, add if it doesn't

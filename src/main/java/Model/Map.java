@@ -12,6 +12,10 @@ public class Map {
         this.mapName = mapName;
     }
 
+    public Map(String mapName) {
+        this.mapName = mapName;
+    }
+
     public int getMapID() {
         return mapID;
     }

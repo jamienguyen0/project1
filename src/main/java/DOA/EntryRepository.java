@@ -12,9 +12,12 @@ public class EntryRepository {
 
     MaplestoryClassRepository mcr;
 
+    MapRepository mr;
+
     public EntryRepository() {
         conn = ConnectionUtil.getConnection();
         mcr = new MaplestoryClassRepository();
+        mr = new MapRepository();
     }
 
     public List<Entry> getAllEntries() {
@@ -28,8 +31,8 @@ public class EntryRepository {
                 int entryID = rs.getInt("entryID");
                 int classID = rs.getInt("classID");
                 int mapID = rs.getInt("mapID");
-                int moneyEarned = rs.getInt("moneyEarned");
-                int expEarned = rs.getInt("expEarned");
+                double moneyEarned = rs.getInt("moneyEarned");
+                double expEarned = rs.getInt("expEarned");
                 String videoURL = rs.getString("videoURL");
                 Entry newEntry = new Entry(entryID, classID, mapID, moneyEarned, expEarned, videoURL);
                 allEntries.add(newEntry);
@@ -52,8 +55,8 @@ public class EntryRepository {
             while (rs.next()) {
                 int entryID = rs.getInt("entryID");
                 int mapID = rs.getInt("mapID");
-                int moneyEarned = rs.getInt("moneyEarned");
-                int expEarned = rs.getInt("expEarned");
+                double moneyEarned = rs.getInt("moneyEarned");
+                double expEarned = rs.getInt("expEarned");
                 String videoURL = rs.getString("videoURL");
                 Entry newEntry = new Entry(entryID, classID, mapID, moneyEarned, expEarned, videoURL);
                 entries.add(newEntry);
@@ -77,8 +80,8 @@ public class EntryRepository {
             while (rs.next()) {
                 int entryID = rs.getInt("entryID");
                 int classID = rs.getInt("classID");
-                int moneyEarned = rs.getInt("moneyEarned");
-                int expEarned = rs.getInt("expEarned");
+                double moneyEarned = rs.getInt("moneyEarned");
+                double expEarned = rs.getInt("expEarned");
                 String videoURL = rs.getString("videoURL");
                 Entry newEntry = new Entry(entryID, classID, mapID, moneyEarned, expEarned, videoURL);
                 entries.add(newEntry);
@@ -97,13 +100,13 @@ public class EntryRepository {
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
-                // int entryID = rs.getInt("entryID");
+                int entryID = rs.getInt("entryID");
                 int classID = rs.getInt("classID");
                 int mapID = rs.getInt("mapID");
-                int moneyEarned = rs.getInt("moneyEarned");
-                int expEarned = rs.getInt("expEarned");
+                double moneyEarned = rs.getInt("moneyEarned");
+                double expEarned = rs.getInt("expEarned");
                 String videoURL = rs.getString("videoURL");
-                Entry entry = new Entry(id, classID, mapID, moneyEarned, expEarned, videoURL);
+                Entry entry = new Entry(entryID, classID, mapID, moneyEarned, expEarned, videoURL);
                 return entry;
             }
         } catch (SQLException e) {
@@ -118,8 +121,8 @@ public class EntryRepository {
             statement.setInt(1, newEntry.getEntryID());
             statement.setInt(2, newEntry.getClassID());
             statement.setInt(3, newEntry.getMapID());
-            statement.setInt(4, newEntry.getMoney());
-            statement.setInt(5, newEntry.getExp());
+            statement.setDouble(4, newEntry.getMoney());
+            statement.setDouble(5, newEntry.getExp());
             statement.setString(6, newEntry.getVideoLink());
             statement.executeUpdate();
         } catch (SQLException e) {

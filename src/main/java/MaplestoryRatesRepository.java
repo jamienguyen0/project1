@@ -36,13 +36,14 @@ public class MaplestoryRatesRepository {
             Entry requestEntry = mapper.readValue(ctx.body(), Entry.class);
 
             // Add map to maps table
-            ms.addMap(requestEntry.getMapID(), "");
+            ms.addMap(ms.getMapNameFromID(requestEntry.getMapID()));
 
             // Add class to classes table
-            mcs.addClass(requestEntry.getClassID(), "");
+            mcs.addClass(mcs.getClassNameFromID(requestEntry.getClassID()));
 
             // TODO: Change classID, mapID in Entry.java to className, mapName and retrieve the id from name
             es.addEntry(requestEntry.getEntryID(), requestEntry.getClassID(), requestEntry.getMapID(), requestEntry.getMoney(), requestEntry.getExp(), requestEntry.getVideoLink());
+            // es.addEntry(requestEntry.getClassID(), requestEntry.getMapID(), requestEntry.getMoney(), requestEntry.getExp(), requestEntry.getVideoLink());
         });
     }
 }
