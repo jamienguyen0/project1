@@ -117,13 +117,13 @@ public class EntryRepository {
 
     public void addEntry(Entry newEntry) {
         try {
-            PreparedStatement statement = conn.prepareStatement("insert into entries(entryID, classID, mapID, moneyEarned, expEarned, videoURL) values(?,?,?,?,?,?)");
-            statement.setInt(1, newEntry.getEntryID());
-            statement.setInt(2, newEntry.getClassID());
-            statement.setInt(3, newEntry.getMapID());
-            statement.setDouble(4, newEntry.getMoney());
-            statement.setDouble(5, newEntry.getExp());
-            statement.setString(6, newEntry.getVideoLink());
+            PreparedStatement statement = conn.prepareStatement("insert into entries(classID, mapID, moneyEarned, expEarned, videoURL) values(?,?,?,?,?)");
+            // statement.setInt(1, newEntry.getEntryID());
+            statement.setInt(1, newEntry.getClassID());
+            statement.setInt(2, newEntry.getMapID());
+            statement.setDouble(3, newEntry.getMoney());
+            statement.setDouble(4, newEntry.getExp());
+            statement.setString(5, newEntry.getVideoLink());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

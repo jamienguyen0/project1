@@ -1,14 +1,17 @@
+window.onload = apiGetEntries;
+
 // For displaying entries
 let displayEntries = document.getElementById("displayEntries");
 let loadButton = document.getElementById("loadEntriesButton");
 
 // For adding entries
-let addButton = document.getElementById("addEntryButton")
+let addButton = document.getElementById("addEntryButton");
+// let entryInput = document.getElementById("entryIDInput");
 let classInput = document.getElementById("classNameInput");
 let mapInput = document.getElementById("mapNameInput");
 let moneyInput = document.getElementById("moneyInput");
 let expInput = document.getElementById("expInput");
-let urlInput = document.getElementById("urlInput");
+let videoInput = document.getElementById("videoLinkInput");
 
 // Event listeners for buttons
 loadButton.addEventListener("click", apiGetEntries);
@@ -25,7 +28,21 @@ async function apiGetEntryById(id) {
     let response = await fetch("http://localhost:9000/entries/" + id);
     response = await response.json();
     console.log(response);
-    return {entryID:response.entryID,classID:response.classID,mapID:response.mapID,money:response.money,exp:response.exp,videoLink:response.videoLink};
+    return {entryID:response.entryID, classID:response.classID, mapID:response.mapID, money:response.money, exp:response.exp, videoLink:response.videoLink};
+}
+
+async function apiGetClassById(id) {
+    let response = await fetch("http://localhost:9000/classes/" + id);
+    response = await response.json();
+    console.log(response);
+    return {classID:response.classID, className:response.className}; 
+}
+
+async function apiGetMapById(id) {
+    let response = await fetch("http://localhost:9000/maps/" + id);
+    response = await response.json();
+    console.log(response);
+    return {mapID:response.mapID, mapName:response.mapName};
 }
 
 async function loadEntries(response) {
@@ -38,7 +55,10 @@ async function loadEntries(response) {
 
     for(let i = 0; i < response.length; i++) {
         let entry = await apiGetEntryById(response[i].entryID);
-        console.log(entry);
+        let msclass = await apiGetClassById(response[i].classID);
+        let map = await apiGetMapById(response[i].mapID);
+        console.log(entry.className);
+        console.log(entry.mapName);
 
         // Create a single entry to put into the entry list
         let entryListing = document.createElement("li");
@@ -50,8 +70,8 @@ async function loadEntries(response) {
         let videoLink_p = document.createElement("p");
 
         entryID_p.innerHTML = "entry id: " + entry.entryID;
-        classID_p.innerHTML = "class id: " + entry.classID;
-        mapID_p.innerHTML = "map id: " + entry.mapID;
+        classID_p.innerHTML = "class: " + msclass.className + " (" + entry.classID + ")";
+        mapID_p.innerHTML = "map: " + map.mapName + " (" + entry.mapID + ")";
         money_p.innerHTML = "mesos earned (in billions): " + entry.money;
         exp_p.innerHTML = "exp earned (in billions): " + entry.exp;
         videoLink_p.innerHTML = "video link: " + entry.videoLink;
@@ -73,5 +93,21 @@ async function loadEntries(response) {
 
 async function apiPostEntry() {
     console.log("Add entry button clicked");
-    let inputEntry = {}
+
+    let inputEntry = {
+        className:classInput.value,
+        mapName:mapInput.value,
+        money:moneyInput.value,
+        exp:expInput.value,
+        videoLink:videoInput.value
+    }
+
+    let response = await fetch("http://localhost:9000/entries", {
+        method:'POST',
+        mode:'cors',
+        headers: {'Content-type':'application/json'},
+        body:JSON.stringify(inputEntry)
+    });
+
+    apiGetEntries();
 }

@@ -20,11 +20,23 @@ public class MaplestoryRatesRepository {
 
         Javalin app = Javalin.create(JavalinConfig::enableCorsForAllOrigins).start(9000);
 
+        // All maps
+        app.get("/maps/", ctx -> ctx.json(ms.getAllMaps()));
+
+        // Map by id
+        app.get("/maps/{id}", ctx -> ctx.json(ms.getMapByID(Integer.parseInt(ctx.pathParam("id")))));
+
+        // All maps
+        app.get("/classes/", ctx -> ctx.json(mcs.getAllClasses()));
+
+        // Map by id
+        app.get("/classes/{id}", ctx -> ctx.json(mcs.getClassByID(Integer.parseInt(ctx.pathParam("id")))));
+
         // All entries
         app.get("/entries/", ctx -> ctx.json(es.getAllEntries()));
 
         // All entries associated with entry id (single entry)
-        app.get("/entries/{id}", ctx -> ctx.json(es.getEntryByID( Integer.parseInt(ctx.pathParam("id")))));
+        app.get("/entries/{id}", ctx -> ctx.json(es.getEntryByID(Integer.parseInt(ctx.pathParam("id")))));
 
         // All entries associated with class id
         app.get("/entries/class/{id}", ctx -> {
@@ -36,14 +48,16 @@ public class MaplestoryRatesRepository {
             Entry requestEntry = mapper.readValue(ctx.body(), Entry.class);
 
             // Add map to maps table
-            ms.addMap(ms.getMapNameFromID(requestEntry.getMapID()));
+            ms.addMap(requestEntry.getMapName());
 
             // Add class to classes table
-            mcs.addClass(mcs.getClassNameFromID(requestEntry.getClassID()));
+            mcs.addClass(requestEntry.getClassName());
 
             // TODO: Change classID, mapID in Entry.java to className, mapName and retrieve the id from name
-            es.addEntry(requestEntry.getEntryID(), requestEntry.getClassID(), requestEntry.getMapID(), requestEntry.getMoney(), requestEntry.getExp(), requestEntry.getVideoLink());
-            // es.addEntry(requestEntry.getClassID(), requestEntry.getMapID(), requestEntry.getMoney(), requestEntry.getExp(), requestEntry.getVideoLink());
+            int classID = mcs.getClassIDFromName(requestEntry.getClassName());
+            int mapID = ms.getMapIDFromName(requestEntry.getMapName());
+            // es.addEntry(requestEntry.getEntryID(), classID, mapID, requestEntry.getMoney(), requestEntry.getExp(), requestEntry.getVideoLink());
+            es.addEntry(classID, mapID, requestEntry.getMoney(), requestEntry.getExp(), requestEntry.getVideoLink());
         });
     }
 }

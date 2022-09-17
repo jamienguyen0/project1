@@ -28,6 +28,10 @@ public class MaplestoryClassService {
         return mcr.getClassIDFromName(name);
     }
 
+    public MaplestoryClass getClassByID(int id) {
+        return mcr.getClassByID(id);
+    }
+
     public void addClass(String name) {
         // ID's should be unique so looking up a class by name rather than ID should eliminate duplicates
         // MaplestoryClass existingClass = mcr.getClassByID(id);

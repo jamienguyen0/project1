@@ -24,6 +24,14 @@ public class MapService {
         return mr.getMapNameFromID(id);
     }
 
+    public int getMapIDFromName(String name) {
+        return mr.getMapIDFromName(name);
+    }
+
+    public Map getMapByID(int id) {
+        return mr.getMapByID(id);
+    }
+
     public void addMap(String mapName) {
         /* ID's should be unique so looking up a class by name rather than ID should eliminate duplicates
          * In a real world setting, this wouldn't completely eliminate all duplicate names because

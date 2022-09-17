@@ -30,14 +30,13 @@ public class EntryService {
         return er.getEntryByID(id);
     }
 
-    public void addEntry(int entryID, int classID, int mapID, double moneyEarned, double expEarned, String url) {
-        Entry entry = er.getEntryByID(entryID);
+    public void addEntry(int classID, int mapID, double moneyEarned, double expEarned, String url) {
+        // Entries don't need to be checked because people can get similar results when training
+        // Entry entry = er.getEntryByID(entryID);
 
         // Check if already exists, add if it doesn't
-        if (entry == null) {
-            Entry newEntry = new Entry(entryID, classID, mapID, moneyEarned, expEarned, url);
-            er.addEntry(newEntry);
-        }
+        Entry newEntry = new Entry(classID, mapID, moneyEarned, expEarned, url);
+        er.addEntry(newEntry);
     }
 
     public void deleteEntry(int entryID) {
