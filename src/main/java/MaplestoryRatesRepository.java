@@ -39,9 +39,7 @@ public class MaplestoryRatesRepository {
         app.get("/entries/{id}", ctx -> ctx.json(es.getEntryByID(Integer.parseInt(ctx.pathParam("id")))));
 
         // All entries associated with class id
-        app.get("/entries/class/{id}", ctx -> {
-           ctx.json(es.getAllEntriesByClassID( Integer.parseInt(ctx.pathParam("id"))));
-        });
+        app.get("/entries/class/{id}", ctx -> ctx.json(es.getAllEntriesByClassID(Integer.parseInt(ctx.pathParam("id")))));
 
         app.post("entries", ctx -> {
             ObjectMapper mapper = new ObjectMapper();
@@ -53,10 +51,9 @@ public class MaplestoryRatesRepository {
             // Add class to classes table
             mcs.addClass(requestEntry.getClassName());
 
-            // TODO: Change classID, mapID in Entry.java to className, mapName and retrieve the id from name
+            // Add entry into entries table
             int classID = mcs.getClassIDFromName(requestEntry.getClassName());
             int mapID = ms.getMapIDFromName(requestEntry.getMapName());
-            // es.addEntry(requestEntry.getEntryID(), classID, mapID, requestEntry.getMoney(), requestEntry.getExp(), requestEntry.getVideoLink());
             es.addEntry(classID, mapID, requestEntry.getMoney(), requestEntry.getExp(), requestEntry.getVideoLink());
         });
     }

@@ -2,11 +2,17 @@ window.onload = apiGetEntries;
 
 // For displaying entries
 let displayEntries = document.getElementById("displayEntries");
-let loadButton = document.getElementById("loadEntriesButton");
+
+// Dropdown menu for classes
+let classSelect = document.getElementById("classSelect");
+let classOptions = {};     // Dictionary of existing classes in the dropdown menu
+
+// Dropdown menu for maps
+let mapSelect = document.getElementById("mapSelect");
+let mapOptions = {};    // Dictionary of existing maps in the dropdown menu
 
 // For adding entries
 let addButton = document.getElementById("addEntryButton");
-// let entryInput = document.getElementById("entryIDInput");
 let classInput = document.getElementById("classNameInput");
 let mapInput = document.getElementById("mapNameInput");
 let moneyInput = document.getElementById("moneyInput");
@@ -14,7 +20,7 @@ let expInput = document.getElementById("expInput");
 let videoInput = document.getElementById("videoLinkInput");
 
 // Event listeners for buttons
-loadButton.addEventListener("click", apiGetEntries);
+// loadButton.addEventListener("click", apiGetEntries);
 addButton.addEventListener("click", apiPostEntry);
 
 async function apiGetEntries() {
@@ -70,8 +76,8 @@ async function loadEntries(response) {
         let videoLink_p = document.createElement("p");
 
         entryID_p.innerHTML = "entry id: " + entry.entryID;
-        classID_p.innerHTML = "class: " + msclass.className + " (" + entry.classID + ")";
-        mapID_p.innerHTML = "map: " + map.mapName + " (" + entry.mapID + ")";
+        classID_p.innerHTML = "class: " + msclass.className + " (id: " + entry.classID + ")";
+        mapID_p.innerHTML = "map: " + map.mapName + " (id: " + entry.mapID + ")";
         money_p.innerHTML = "mesos earned (in billions): " + entry.money;
         exp_p.innerHTML = "exp earned (in billions): " + entry.exp;
         videoLink_p.innerHTML = "video link: " + entry.videoLink;
@@ -85,10 +91,26 @@ async function loadEntries(response) {
 
         // Append entry to the entry list
         entryList.appendChild(entryListing);
+        
+        // Add class and map to diciontaries
+        if ( !(msclass.classID in classOptions) ) {
+            classOptions[msclass.classID] = msclass.className;
+            let classSelectOption = document.createElement("option");
+            classSelectOption.value = msclass.className;
+            classSelectOption.text = msclass.className;
+            classSelect.appendChild(classSelectOption);
+        }
+        
+        if ( !(map.mapID in mapOptions) ) {
+            mapOptions[map.mapID] = map.mapName;
+            let mapSelectOption = document.createElement("option");
+            mapSelectOption.value = map.mapName;
+            mapSelectOption.text = map.mapName;
+            mapSelect.appendChild(mapSelectOption);
+        }
     }
 
     displayEntries.appendChild(entryList);
-
 }
 
 async function apiPostEntry() {
