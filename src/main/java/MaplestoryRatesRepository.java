@@ -26,20 +26,23 @@ public class MaplestoryRatesRepository {
         // Map by id
         app.get("/maps/{id}", ctx -> ctx.json(ms.getMapByID(Integer.parseInt(ctx.pathParam("id")))));
 
-        // All maps
+        // All classes
         app.get("/classes/", ctx -> ctx.json(mcs.getAllClasses()));
 
-        // Map by id
+        // Class by id
         app.get("/classes/{id}", ctx -> ctx.json(mcs.getClassByID(Integer.parseInt(ctx.pathParam("id")))));
 
         // All entries
         app.get("/entries/", ctx -> ctx.json(es.getAllEntries()));
 
-        // All entries associated with entry id (single entry)
+        // Entry by id
         app.get("/entries/{id}", ctx -> ctx.json(es.getEntryByID(Integer.parseInt(ctx.pathParam("id")))));
 
         // All entries associated with class id
         app.get("/entries/class/{id}", ctx -> ctx.json(es.getAllEntriesByClassID(Integer.parseInt(ctx.pathParam("id")))));
+
+        // All entries associated with map id
+        app.get("/entries/map/{id}", ctx -> ctx.json(es.getAllEntriesByMapID(Integer.parseInt(ctx.pathParam("id")))));
 
         app.post("entries", ctx -> {
             ObjectMapper mapper = new ObjectMapper();

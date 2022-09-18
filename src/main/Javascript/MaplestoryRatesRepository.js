@@ -6,10 +6,12 @@ let displayEntries = document.getElementById("displayEntries");
 // Dropdown menu for classes
 let classSelect = document.getElementById("classSelect");
 let classOptions = {};     // Dictionary of existing classes in the dropdown menu
+let loadEntriesByClassButton = document.getElementById("loadEntriesByClassButton");
 
 // Dropdown menu for maps
 let mapSelect = document.getElementById("mapSelect");
 let mapOptions = {};    // Dictionary of existing maps in the dropdown menu
+let loadEntriesByMapButton = document.getElementById("loadEntriesByMapButton");
 
 // For adding entries
 let addButton = document.getElementById("addEntryButton");
@@ -20,14 +22,48 @@ let expInput = document.getElementById("expInput");
 let videoInput = document.getElementById("videoLinkInput");
 
 // Event listeners for buttons
-// loadButton.addEventListener("click", apiGetEntries);
 addButton.addEventListener("click", apiPostEntry);
+loadEntriesByClassButton.addEventListener("click", apiGetEntriesByClass);
+loadEntriesByMapButton.addEventListener("click", apiGetEntriesByMap);
 
 async function apiGetEntries() {
-    console.log("loadButton clicked");
     let response = await fetch("http://localhost:9000/entries");
     response = await response.json();
     loadEntries(response);
+}
+
+async function apiGetEntriesByClass() {
+    if (classSelect.value === "All Entries...") {
+        apiGetEntries();
+    } else {
+        // Get the value from the select option
+        let className = classSelect.value;
+
+        // Get key from classOptions dictionary (key = classID)
+        let classID = Object.keys(classOptions).find(key => classOptions[key] == className);
+        console.log(classID);
+
+        let response = await fetch("http://localhost:9000/entries/class/" + classID);
+        response = await response.json();
+        loadEntries(response);
+    }
+}
+
+async function apiGetEntriesByMap() {
+    if (mapSelect.value === "All Entries...") {
+        apiGetEntries();
+    } else {
+        // Get the value from the select option
+        let mapName = mapSelect.value;
+
+        // Get key from mapOptions dictionary (key = classID)
+        let mapID = Object.keys(mapOptions).find(key => mapOptions[key] == mapName);
+        console.log(mapID);
+
+        let response = await fetch("http://localhost:9000/entries/map/" + mapID);
+        response = await response.json();
+        loadEntries(response);
+    }
 }
 
 async function apiGetEntryById(id) {
